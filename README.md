@@ -19,7 +19,9 @@ This project simulates a real-world Linux system administration task involving t
 
 ## User and Group Management
 
-### Create Users
+### Step 1: Create Users
+
+**Commands Used:**
 
 ```bash
 sudo useradd adminuser
@@ -32,45 +34,74 @@ sudo useradd guestuser
 sudo passwd guestuser  # Password: gu3st123!
 ```
 
-### Create Group
+**Explanation:** These commands create three users on the server, each with a unique password.
+
+**Screenshot Placeholder:**
+`[Screenshot: user creation]`
+
+### Step 2: Create Group
+
+**Command Used:**
 
 ```bash
 sudo groupadd developers
 ```
 
-### Group Assignments
+**Explanation:** This creates a group for users collaborating on development tasks.
+
+**Screenshot Placeholder:**
+`[Screenshot: group creation]`
+
+### Step 3: Assign Users to Groups
+
+**Commands Used:**
 
 ```bash
 sudo usermod -aG developers devuser
 sudo usermod -aG wheel adminuser
 ```
 
+**Explanation:** `devuser` is added to the `developers` group for shared access. `adminuser` is added to the `wheel` group for sudo privileges.
+
+**Screenshot Placeholder:**
+`[Screenshot: user group assignments]`
+
 ---
 
 ## Password Policies
 
-Edit `/etc/login.defs`:
+### Step 1: Edit Login Definitions
 
-* Set password expiry:
+**File Edited:** `/etc/login.defs`
+**Changes Made:**
 
-  ```bash
-  PASS_MAX_DAYS 60
-  PASS_WARN_AGE 14
-  ```
+```bash
+PASS_MAX_DAYS 60
+PASS_WARN_AGE 14
+```
 
-* Apply policies to users:
+**Explanation:** Sets password expiration to 60 days and warning 14 days prior to expiration.
 
-  ```bash
-  sudo chage --maxdays 60 --warndays 14 adminuser
-  sudo chage --maxdays 60 --warndays 14 devuser
-  sudo chage --maxdays 60 --warndays 14 guestuser
-  ```
+### Step 2: Apply to All Users
+
+**Commands Used:**
+
+```bash
+sudo chage --maxdays 60 --warndays 14 adminuser
+sudo chage --maxdays 60 --warndays 14 devuser
+sudo chage --maxdays 60 --warndays 14 guestuser
+```
+
+**Screenshot Placeholder:**
+`[Screenshot: chage command output]`
 
 ---
 
-## Shared Directory Setup
+## Shared Directory
 
-### Create and Configure Directory
+### Step 1: Create Shared Directory
+
+**Commands Used:**
 
 ```bash
 sudo mkdir -p /srv/devshare
@@ -78,69 +109,97 @@ sudo chown root:developers /srv/devshare
 sudo chmod 2060 /srv/devshare
 ```
 
-### Read-Only Access for guestuser
+**Explanation:** Prepares a directory owned by root but writable by the `developers` group with `setgid`.
+
+### Step 2: Set ACL for guestuser
+
+**Command Used:**
 
 ```bash
 sudo setfacl -m u:guestuser:r /srv/devshare/
 ```
 
+**Explanation:** Gives `guestuser` read-only access using ACL.
+
+**Screenshot Placeholder:**
+`[Screenshot: ACL verification]`
+
 ---
 
 ## SSH Configuration
 
-### Key-based Login from Ubuntu Client
+### Step 1: Generate SSH Keys on Client
 
-On Ubuntu client:
+**Commands Used:**
 
 ```bash
-sudo su - devuser
 ssh-keygen -t rsa -C "devuser"
 ssh-copy-id adminuser@192.168.1.25
 
-sudo su - guestuser
 ssh-keygen -t rsa -C "guestuser"
 ssh-copy-id guestuser@192.168.1.25
 ```
 
-### Disable Password Login for adminuser
+**Explanation:** Enables passwordless SSH access using key authentication.
 
-Create file `/etc/ssh/sshd_config.d/admin-user-nologin.conf`:
+**Screenshot Placeholder:**
+`[Screenshot: ssh-keygen and ssh-copy-id outputs]`
+
+### Step 2: Disable Password Login for adminuser
+
+**File Created:** `/etc/ssh/sshd_config.d/admin-user-nologin.conf`
 
 ```conf
 Match User adminuser
     PasswordAuthentication no
 ```
 
-Restart SSH:
+**Command:**
 
 ```bash
 sudo systemctl restart sshd
 ```
 
+**Explanation:** Restricts adminuser to use SSH key authentication only.
+
+**Screenshot Placeholder:**
+`[Screenshot: sshd config and restart]`
+
 ---
 
-## Firewall Configuration
+## Firewall Setup
 
-### Ensure Bridged Networking in VirtualBox
+### Step 1: Networking in VirtualBox
 
-Set both CentOS and Ubuntu network adapters to "Bridged Adapter".
+Set the network adapter to `Bridged Adapter` for both CentOS and Ubuntu VMs.
 
-### Allow Only SSH and HTTP
+**Screenshot Placeholder:**
+`[Screenshot: VirtualBox network settings]`
+
+### Step 2: Enable Firewall and Open Required Ports
+
+**Commands Used:**
 
 ```bash
 sudo dnf install -y firewalld
 sudo systemctl start firewalld
-
 sudo firewall-cmd --zone=public --add-port=22/tcp --permanent
 sudo firewall-cmd --zone=public --add-port=80/tcp --permanent
 sudo firewall-cmd --reload
 ```
 
+**Explanation:** Enables firewalld, opens only necessary ports (SSH and HTTP).
+
+**Screenshot Placeholder:**
+`[Screenshot: firewall-cmd confirmation]`
+
 ---
 
 ## Web Server Deployment
 
-### Install and Enable Apache
+### Step 1: Install Apache
+
+**Commands Used:**
 
 ```bash
 sudo yum install httpd -y
@@ -148,96 +207,67 @@ sudo systemctl enable --now httpd
 sudo systemctl status httpd
 ```
 
-### Test HTTP Access
+**Explanation:** Installs and starts the Apache web server.
 
-From Ubuntu client:
+**Screenshot Placeholder:**
+`[Screenshot: apache status output]`
+
+### Step 2: Test from Ubuntu Client
+
+**Command Used:**
 
 ```bash
 curl http://192.168.1.12:80
 ```
 
+**Explanation:** Verifies that Apache is serving HTTP traffic.
+
+**Screenshot Placeholder:**
+`[Screenshot: curl output of default Apache page]`
+
 ---
 
-## System Monitoring Scripts
+## Monitoring Scripts
 
-### 1. Memory Utilization Monitor
+### Memory Monitor Script
 
-`/usr/local/bin/mem_monitor.sh`
+**Path:** `/usr/local/bin/mem_monitor.sh`
+**Function:** Logs memory utilization level every 10 minutes with appropriate status code.
 
-```bash
-#!/bin/bash
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-RED='\033[0;31m'
-NC='\033[0m'
-timestamp=$(date "+%Y-%m-%d %H:%M:%S")
-total=$(grep MemTotal /proc/meminfo | awk '{print $2}')
-available=$(grep MemAvailable /proc/meminfo | awk '{print $2}')
-used_memory=$(echo "scale=2; ($total - $available) * 100 / $total" | bc)
+### CPU Monitor Script
 
-if (( $(echo "$used_memory < 80" | bc -l) )); then
-    echo -e "$timestamp - OK - ${used_memory}%"
-    exit 0
-elif (( $(echo "$used_memory < 90" | bc -l) )); then
-    echo -e "$timestamp - WARNING - ${used_memory}%"
-    exit 1
-else
-    echo -e "$timestamp - CRITICAL - ${used_memory}%"
-    exit 2
-fi
-```
+**Path:** `/usr/local/bin/cpu_monitor.sh`
+**Function:** Logs CPU utilization and categorizes by threshold.
 
-### 2. CPU Utilization Monitor
+### Crontab for Automation
 
-`/usr/local/bin/cpu_monitor.sh`
-
-```bash
-#!/bin/bash
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-RED='\033[0;31m'
-NC='\033[0m'
-timestamp=$(date "+%Y-%m-%d %H:%M:%S")
-cpu_idle=$(top -bn1 | grep "Cpu(s)" | awk -F',' '{print $4}' | awk '{print $1}')
-cpu_usage=$(echo "100 - $cpu_idle" | bc)
-
-if (( $(echo "$cpu_usage < 80" | bc -l) )); then
-    echo -e "$timestamp - OK - ${cpu_usage}%"
-    exit 0
-elif (( $(echo "$cpu_usage < 90" | bc -l) )); then
-    echo -e "$timestamp - WARNING - ${cpu_usage}%"
-    exit 1
-else
-    echo -e "$timestamp - CRITICAL - ${cpu_usage}%"
-    exit 2
-fi
-```
-
-### Logging and Cron Job
-
-Place logs in `/var/log/`:
+**Commands Used:**
 
 ```bash
 sudo crontab -e
 ```
 
-Add:
+**Crontab Entries:**
 
 ```cron
 */10 * * * * /usr/local/bin/mem_monitor.sh >> /var/log/mem_monitor.log 2>&1
 */10 * * * * /usr/local/bin/cpu_monitor.sh >> /var/log/cpu_monitor.log 2>&1
 ```
 
+**Screenshot Placeholder:**
+`[Screenshot: crontab -e output]`
+
 ---
 
 ## Notes
 
-* Ensure correct file permissions for monitor scripts:
+* Ensure monitor scripts are executable:
 
-  ```bash
-  chmod +x /usr/local/bin/*_monitor.sh
-  ```
-* Reboot the system or restart affected services after critical configuration changes.
+```bash
+chmod +x /usr/local/bin/*_monitor.sh
+```
+
+* Restart SSH and firewall services after updates.
 
 ---
 
