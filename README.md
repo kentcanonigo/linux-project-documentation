@@ -354,10 +354,6 @@ chmod +x /usr/local/bin/*_monitor.sh
 
 ---
 
-Sure — here’s a more concise, developer-targeted version:
-
----
-
 ## VirtualBox .ova Files Used
 
 [CentOS Server](https://drive.google.com/file/d/1JSuiICU_iUfkg5AWxrTHbHfzH_mwEG8v/view?usp=sharing)
