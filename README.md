@@ -36,7 +36,7 @@ sudo passwd guestuser  # Password: gu3st123!
 
 **Explanation:** These commands create three users on the CentOS server.
 
-![user creation on centos server](https://github.com/kentcanonigo/linux-project-documentation/blob/main/screenshots/user%20creation.png)
+![user creation on centos server](https://github.com/kentcanonigo/linux-project-documentation/blob/main/screenshots/user%20creation.png | width=100)
 
 ### Step 2: Create Group
 
