@@ -131,7 +131,7 @@ sudo setfacl -m u:guestuser:r /srv/devshare/
 
 **Explanation:** Gives `guestuser` read-only access using ACL.
 
-<img src="https://github.com/kentcanonigo/linux-project-documentation/blob/main/screenshots/set-access-control%20all.png" width="600" alt="ACL verification"/>
+<img src="https://github.com/kentcanonigo/linux-project-documentation/blob/main/screenshots/set-access-control-all.png" width="600" alt="ACL verification"/>
 
 ---
 
@@ -168,7 +168,7 @@ Match User adminuser
 
 **Explanation:** Restricts adminuser to use SSH key authentication only.
 
-<img src="https://github.com/kentcanonigo/linux-project-documentation/blob/main/screenshots/ssh-key-generation.png" width="600" alt="SSH Key generation"/>
+<img src="https://github.com/kentcanonigo/linux-project-documentation/blob/main/screenshots/ssh-adminuser-pw.gif" width="600" alt="adminuser restriction"/>
 
 ---
 
