@@ -264,6 +264,14 @@ else
     exit 2
 fi
 ```
+Testing process: 
+ 1. Start a stress process | memory stress process.
+ 2. This launches 1 virtual memory worker (--vm 1) that simulates RAM pressure.
+ 3. The worker aggressively performs malloc/free operations, allocating up to 1GB of memory ```--vm-bytes 1G ```.
+ 4. This creates a high memory load, potentially causing memory fragmentation or testing swap behavior depending on system capacity.  
+ 5. The stress run continues for 60 seconds.
+
+``` stress --vm 1 --vm-bytes 1G --timeout 60 ```
 
 <img src="https://github.com/kentcanonigo/linux-project-documentation/blob/main/screenshots/mem-test-2.gif" width="600" alt="memory test in action"/>
 
