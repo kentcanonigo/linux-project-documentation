@@ -168,7 +168,7 @@ Match User adminuser
 
 **Explanation:** Restricts adminuser to use SSH key authentication only.
 
-<img src="https://github.com/kentcanonigo/linux-project-documentation/blob/main/screenshots/ssh-adminuser-pw.gif" width="600" alt="adminuser restriction"/>
+<img src="https://github.com/kentcanonigo/linux-project-documentation/blob/main/screenshots/ssh-adminuser-fix.gif" width="600" alt="adminuser restriction"/>
 
 ---
 
@@ -178,8 +178,7 @@ Match User adminuser
 
 Set the network adapter to `Bridged Adapter` for both CentOS and Ubuntu VMs.
 
-**Screenshot Placeholder:**
-`![VirtualBox network settings](https://github.com/kentcanonigo/linux-project-documentation/raw/main/screenshots/VirtualBox%20network%20settings.png)`
+<img src="https://github.com/kentcanonigo/linux-project-documentation/blob/main/screenshots/network-adapter.gif" width="600" alt="network adapter to bridged"/>
 
 ### Step 2: Enable Firewall and Open Required Ports
 
@@ -195,8 +194,7 @@ sudo firewall-cmd --reload
 
 **Explanation:** Enables firewalld, opens only necessary ports (SSH and HTTP).
 
-**Screenshot Placeholder:**
-`![firewall-cmd confirmation](https://github.com/kentcanonigo/linux-project-documentation/raw/main/screenshots/firewall-cmd%20confirmation.png)`
+<img src="https://github.com/kentcanonigo/linux-project-documentation/blob/main/screenshots/firewalld-ports.png" width="600" alt="firewalld setup"/>
 
 ---
 
@@ -214,21 +212,19 @@ sudo systemctl status httpd
 
 **Explanation:** Installs and starts the Apache web server.
 
-**Screenshot Placeholder:**
-`![apache status output](https://github.com/kentcanonigo/linux-project-documentation/raw/main/screenshots/apache%20status%20output.png)`
+<img src="https://github.com/kentcanonigo/linux-project-documentation/blob/main/screenshots/httpd-setup.gif" width="600" alt="firewalld setup"/>
 
 ### Step 2: Test from Ubuntu Client
 
 **Command Used:**
 
 ```
-curl http://192.168.1.12:80
+curl http://192.168.1.34:80 # IP Address may vary from your network
 ```
 
-**Explanation:** Verifies that Apache is serving HTTP traffic.
+**Explanation:** Verifies that Apache is serving HTTP traffic on port 80 and is accessible from ubuntu client.
 
-**Screenshot Placeholder:**
-`![curl output of default Apache page](https://github.com/kentcanonigo/linux-project-documentation/raw/main/screenshots/curl%20output%20of%20default%20Apache%20page.png)`
+<img src="https://github.com/kentcanonigo/linux-project-documentation/blob/main/screenshots/curl-ubuntu.gif" width="600" alt="firewalld setup"/>
 
 ---
 
