@@ -37,7 +37,7 @@ sudo passwd guestuser  # Password: gu3st123!
 **Explanation:** These commands create three users on the CentOS server.
 
 **Screenshot Placeholder:**
-`![user creation on centos server](https://github.com/kentcanonigo/linux-project-documentation/raw/main/screenshots/user%20creation%20.png)`
+![user creation on centos server](https://github.com/kentcanonigo/linux-project-documentation/raw/main/screenshots/user%20creation%20.png)
 
 ### Step 2: Create Group
 
@@ -50,7 +50,7 @@ sudo groupadd developers
 **Explanation:** This creates a group for users collaborating on development tasks.
 
 **Screenshot Placeholder:**
-`![group creation](https://github.com/kentcanonigo/linux-project-documentation/raw/main/screenshots/group%20creation.png)`
+![group creation](https://github.com/kentcanonigo/linux-project-documentation/raw/main/screenshots/group%20creation.png)
 
 ### Step 3: Assign Users to Groups
 
@@ -64,7 +64,7 @@ sudo usermod -aG wheel adminuser
 **Explanation:** `devuser` is added to the `developers` group for shared access. `adminuser` is added to the `wheel` group for sudo privileges.
 
 **Screenshot Placeholder:**
-`![user group assignments](https://github.com/kentcanonigo/linux-project-documentation/raw/main/screenshots/user%20group%20assignments.png)`
+![user group assignments](https://github.com/kentcanonigo/linux-project-documentation/raw/main/screenshots/user%20group%20assignments.png)
 
 ---
 
@@ -90,7 +90,7 @@ PASS_WARN_AGE 14
 **Explanation:** Sets password expiration to 60 days and warning 14 days prior to expiration.
 
 **Screenshot Placeholder:**
-`![modify login defs](https://github.com/kentcanonigo/linux-project-documentation/raw/main/screenshots/modify%login%defs.gif)`
+![modify login defs](https://github.com/kentcanonigo/linux-project-documentation/raw/main/screenshots/modify%login%defs.gif)
 
 ### Step 2: Apply to All Users
 
