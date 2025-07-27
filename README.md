@@ -298,8 +298,22 @@ else
 	exit 2
 fi
 ```
+Testing process: 
+ 1. Start a stress-ng process.
+ 2. This creates a CPU stressor for each available CPU on the system.
+ 3. Each CPU stressor will repeatedly perform a matrix multiplication calculation.
+ 4. Drive the CPU utilization to approximately 90% across all active cores.
+ 5. The stress test will run for 60 seconds.  
+
+``` stress-ng --cpu 0 --cpu-method matrixprod --cpu-load 90 --timeout 60 ```
+
+```--cpu 0 ```Spawn 1 worker per available CPU core.
+```--cpu-method matrixprod ``` The "matrix product" is a method to stress the CPU.
+```--cpu-load 90 ``` Run the CPU load at 90% to simulate a more realistic, heavy non-maxed load.
+```--timeout 60``` Run the stress test for 60 seconds, then automatically stops.
 
 <img src="https://github.com/kentcanonigo/linux-project-documentation/blob/main/screenshots/cpu-test-2.gif" width="600" alt="memory test in action"/>
+
 
 ### Crontab for Automation
 
