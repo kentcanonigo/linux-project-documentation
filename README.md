@@ -73,6 +73,13 @@ sudo usermod -aG wheel adminuser
 ### Step 1: Edit Login Definitions
 
 **File Edited:** `/etc/login.defs`
+
+**Commands Used:**
+
+```
+sudo vim /etc/login.defs
+```
+
 **Changes Made:**
 
 ```
@@ -81,6 +88,9 @@ PASS_WARN_AGE 14
 ```
 
 **Explanation:** Sets password expiration to 60 days and warning 14 days prior to expiration.
+
+**Screenshot Placeholder:**
+`![modify login defs](https://github.com/kentcanonigo/linux-project-documentation/raw/main/screenshots/modify%login%defs.gif)`
 
 ### Step 2: Apply to All Users
 
