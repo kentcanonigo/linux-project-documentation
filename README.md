@@ -234,10 +234,68 @@ curl <centos server ip>:80 # IP Address may vary from your network
 **Path:** `/usr/local/bin/mem_monitor.sh`
 **Function:** Logs memory utilization level every 10 minutes with appropriate status code.
 
+```
+#!/bin/bash
+
+#-----------------------------MEMORY UTILIZATION MONITOR---------------------------------#
+
+ # color codes 
+   GREEN='\033[0;32m'
+   YELLOW='\033[1;33m'
+   RED='\033[0;31m'
+   NC='\033[0m'
+
+
+#-----------VARIABLES------------
+   timestamp=$(date "+%Y-%m-%d %H:%M:%S")
+   total=$(grep MemTotal /proc/meminfo | awk '{print $2}') # returns the Total Memory kB
+   available=$(grep MemAvailable /proc/meminfo | awk '{print $2}') # returns the Available Memort kB
+   used_memory=$(echo "scale=2; ( $total - $available ) * 100 / total" | bc ] # Used Memory in %
+#-------------------------------
+
+if [ "$(echo "$used_memory < 80" | bc -l)" -eq 1 ]; then
+    echo -e "${GREEN}$timestamp - OK - ${used_memory}%${NC}"
+    exit 0
+elif [ "$(echo "$used_memory < 90" | bc -l)" -eq 1 ]; then
+    echo -e "${YELLOW}$timestamp - WARNING - ${used_memory}%${NC}"
+    exit 1
+else
+    echo -e "${RED}$timestamp - CRITICAL - ${used_memory}%${NC}"
+    exit 2
+fi
+```
+
 ### CPU Monitor Script
 
 **Path:** `/usr/local/bin/cpu_monitor.sh`
 **Function:** Logs CPU utilization and categorizes by threshold.
+
+```
+#!/bin/bash
+
+#-----------CPU UTILIZATION MONITOR-------------#
+   # Color Codes
+   GREEN='\033[0;32m'
+   YELLOW='\033[1;33m'
+   RED='\033[0;31m'
+   NC='\033[0m' #no color 
+#----------------------- Variables--------------------------
+  timestamp=$(date "+%Y-%m-%d %H:%M:%S") 
+  cpu_idle=$(top -bn1 | grep "Cpu(s)" | awk -F',' '{print $4}' | awk '{print $1}') # Returns id,idle: time spent in the kernel idle handler
+  cpu_usage=$(echo "100 - $cpu_idle" | bc) # bc for basic calculations, needed for acurate calculations with decimals 
+
+#----------------------------------------------#
+if [ $(echo "$cpu_usage < 80" | bc -l) ]; then
+	echo -e "${GREEN}$timestamp - OK - ${cpu_usage}%${NC}"  # if usage < 80%
+	exit 0
+elif [ $(echo "$cpu_usage < 90" | bc -l) ]; then
+	echo -e "${YELLOW}$timestamp - WARNING - ${cpu_usage}%${NC}"  # if usage >= 80% && usage < 90%
+        exit 1
+else 
+	echo -e "${RED}$timestamp - CRITICAL - ${cpu_usage}%${NC}"   # if usage >= 90%
+	exit 2
+fi
+```
 
 ### Crontab for Automation
 
