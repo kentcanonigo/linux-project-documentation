@@ -137,19 +137,18 @@ sudo setfacl -m u:guestuser:r /srv/devshare/
 
 ## SSH Configuration
 
-### Step 1: Generate SSH Keys on Client
+### Step 1: Generate SSH Keys on Client (Different ssh key pair for each user)
 
 **Commands Used:**
 
 ```
 ssh-keygen
-ssh-copy-id adminuser@192.168.1.34 # IP Address on CentOS host may vary on the network
-ssh-copy-id devuser@192.168.1.34
+ssh-copy-id <user>@<centos server ip> # IP Address on CentOS host may vary on the network
 ```
 
-**Explanation:** Enables passwordless SSH access using key authentication.
+**Explanation:** Enables passwordless SSH access using key authentication for adminuser and devuser.
 
-<img src="https://github.com/kentcanonigo/linux-project-documentation/blob/main/screenshots/ssh-key-generation.png" width="600" alt="SSH Key generation"/>
+<img src="https://github.com/kentcanonigo/linux-project-documentation/blob/main/screenshots/ssh-keygen-users.gif" width="600" alt="SSH Key generation"/>
 
 ### Step 2: Disable Password Login for adminuser
 
@@ -219,7 +218,7 @@ sudo systemctl status httpd
 **Command Used:**
 
 ```
-curl http://192.168.1.34:80 # IP Address may vary from your network
+curl <centos server ip>:80 # IP Address may vary from your network
 ```
 
 **Explanation:** Verifies that Apache is serving HTTP traffic on port 80 and is accessible from ubuntu client.
