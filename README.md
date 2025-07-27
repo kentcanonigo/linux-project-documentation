@@ -312,7 +312,7 @@ Testing process:
 ```--cpu-load 90 ``` Run the CPU load at 90% to simulate a more realistic, heavy non-maxed load.
 ```--timeout 60``` Run the stress test for 60 seconds, then automatically stops.
 
-<img src="https://github.com/kentcanonigo/linux-project-documentation/blob/main/screenshots/cpu-test-2.gif" width="600" alt="memory test in action"/>
+<img src="https://github.com/kentcanonigo/linux-project-documentation/blob/main/screenshots/cpu-test-2.gif" width="600" alt="cpu test in action"/>
 
 
 ### Crontab for Automation
@@ -330,8 +330,7 @@ sudo crontab -e
 */10 * * * * /usr/local/bin/cpu_monitor.sh >> /var/log/cpu_monitor.log 2>&1
 ```
 
-**Screenshot Placeholder:**
-`![crontab -e output](https://github.com/kentcanonigo/linux-project-documentation/raw/main/screenshots/crontab%20-e%20output.png)`
+<img src="https://github.com/kentcanonigo/linux-project-documentation/blob/main/screenshots/crontab.png" width="600" alt="crontab"/>
 
 ---
 
