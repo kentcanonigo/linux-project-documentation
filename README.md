@@ -19,11 +19,11 @@ This project simulates a real-world Linux system administration task involving t
 
 ## User and Group Management
 
-### Step 1: Create Users
+### Step 1: Create Users (on Server)
 
-**Commands Used:**
+**Commands Used on CentOS Server:**
 
-```bash
+```
 sudo useradd adminuser
 sudo passwd adminuser  # Password: @dmin123!
 
@@ -34,29 +34,29 @@ sudo useradd guestuser
 sudo passwd guestuser  # Password: gu3st123!
 ```
 
-**Explanation:** These commands create three users on the server, each with a unique password.
+**Explanation:** These commands create three users on the CentOS server.
 
 **Screenshot Placeholder:**
-`[Screenshot: user creation]`
+`![user creation on centos server](https://github.com/kentcanonigo/linux-project-documentation/raw/main/screenshots/user%20creation%20.png)`
 
 ### Step 2: Create Group
 
 **Command Used:**
 
-```bash
+```
 sudo groupadd developers
 ```
 
 **Explanation:** This creates a group for users collaborating on development tasks.
 
 **Screenshot Placeholder:**
-`[Screenshot: group creation]`
+`![group creation](https://github.com/kentcanonigo/linux-project-documentation/raw/main/screenshots/group%20creation.png)`
 
 ### Step 3: Assign Users to Groups
 
 **Commands Used:**
 
-```bash
+```
 sudo usermod -aG developers devuser
 sudo usermod -aG wheel adminuser
 ```
@@ -64,7 +64,7 @@ sudo usermod -aG wheel adminuser
 **Explanation:** `devuser` is added to the `developers` group for shared access. `adminuser` is added to the `wheel` group for sudo privileges.
 
 **Screenshot Placeholder:**
-`[Screenshot: user group assignments]`
+`![user group assignments](https://github.com/kentcanonigo/linux-project-documentation/raw/main/screenshots/user%20group%20assignments.png)`
 
 ---
 
@@ -75,7 +75,7 @@ sudo usermod -aG wheel adminuser
 **File Edited:** `/etc/login.defs`
 **Changes Made:**
 
-```bash
+```
 PASS_MAX_DAYS 60
 PASS_WARN_AGE 14
 ```
@@ -86,14 +86,14 @@ PASS_WARN_AGE 14
 
 **Commands Used:**
 
-```bash
+```
 sudo chage --maxdays 60 --warndays 14 adminuser
 sudo chage --maxdays 60 --warndays 14 devuser
 sudo chage --maxdays 60 --warndays 14 guestuser
 ```
 
 **Screenshot Placeholder:**
-`[Screenshot: chage command output]`
+`![chage command output](https://github.com/kentcanonigo/linux-project-documentation/raw/main/screenshots/chage%20command%20output.png)`
 
 ---
 
@@ -103,7 +103,7 @@ sudo chage --maxdays 60 --warndays 14 guestuser
 
 **Commands Used:**
 
-```bash
+```
 sudo mkdir -p /srv/devshare
 sudo chown root:developers /srv/devshare
 sudo chmod 2060 /srv/devshare
@@ -115,14 +115,14 @@ sudo chmod 2060 /srv/devshare
 
 **Command Used:**
 
-```bash
+```
 sudo setfacl -m u:guestuser:r /srv/devshare/
 ```
 
 **Explanation:** Gives `guestuser` read-only access using ACL.
 
 **Screenshot Placeholder:**
-`[Screenshot: ACL verification]`
+`![ACL verification](https://github.com/kentcanonigo/linux-project-documentation/raw/main/screenshots/ACL%20verification.png)`
 
 ---
 
@@ -132,7 +132,7 @@ sudo setfacl -m u:guestuser:r /srv/devshare/
 
 **Commands Used:**
 
-```bash
+```
 ssh-keygen -t rsa -C "devuser"
 ssh-copy-id adminuser@192.168.1.25
 
@@ -143,27 +143,27 @@ ssh-copy-id guestuser@192.168.1.25
 **Explanation:** Enables passwordless SSH access using key authentication.
 
 **Screenshot Placeholder:**
-`[Screenshot: ssh-keygen and ssh-copy-id outputs]`
+`![ssh-keygen and ssh-copy-id outputs](https://github.com/kentcanonigo/linux-project-documentation/raw/main/screenshots/ssh-keygen%20and%20ssh-copy-id%20outputs.png)`
 
 ### Step 2: Disable Password Login for adminuser
 
 **File Created:** `/etc/ssh/sshd_config.d/admin-user-nologin.conf`
 
-```conf
+```
 Match User adminuser
     PasswordAuthentication no
 ```
 
 **Command:**
 
-```bash
+```
 sudo systemctl restart sshd
 ```
 
 **Explanation:** Restricts adminuser to use SSH key authentication only.
 
 **Screenshot Placeholder:**
-`[Screenshot: sshd config and restart]`
+`![sshd config and restart](https://github.com/kentcanonigo/linux-project-documentation/raw/main/screenshots/sshd%20config%20and%20restart.png)`
 
 ---
 
@@ -174,13 +174,13 @@ sudo systemctl restart sshd
 Set the network adapter to `Bridged Adapter` for both CentOS and Ubuntu VMs.
 
 **Screenshot Placeholder:**
-`[Screenshot: VirtualBox network settings]`
+`![VirtualBox network settings](https://github.com/kentcanonigo/linux-project-documentation/raw/main/screenshots/VirtualBox%20network%20settings.png)`
 
 ### Step 2: Enable Firewall and Open Required Ports
 
 **Commands Used:**
 
-```bash
+```
 sudo dnf install -y firewalld
 sudo systemctl start firewalld
 sudo firewall-cmd --zone=public --add-port=22/tcp --permanent
@@ -191,7 +191,7 @@ sudo firewall-cmd --reload
 **Explanation:** Enables firewalld, opens only necessary ports (SSH and HTTP).
 
 **Screenshot Placeholder:**
-`[Screenshot: firewall-cmd confirmation]`
+`![firewall-cmd confirmation](https://github.com/kentcanonigo/linux-project-documentation/raw/main/screenshots/firewall-cmd%20confirmation.png)`
 
 ---
 
@@ -201,7 +201,7 @@ sudo firewall-cmd --reload
 
 **Commands Used:**
 
-```bash
+```
 sudo yum install httpd -y
 sudo systemctl enable --now httpd
 sudo systemctl status httpd
@@ -210,20 +210,20 @@ sudo systemctl status httpd
 **Explanation:** Installs and starts the Apache web server.
 
 **Screenshot Placeholder:**
-`[Screenshot: apache status output]`
+`![apache status output](https://github.com/kentcanonigo/linux-project-documentation/raw/main/screenshots/apache%20status%20output.png)`
 
 ### Step 2: Test from Ubuntu Client
 
 **Command Used:**
 
-```bash
+```
 curl http://192.168.1.12:80
 ```
 
 **Explanation:** Verifies that Apache is serving HTTP traffic.
 
 **Screenshot Placeholder:**
-`[Screenshot: curl output of default Apache page]`
+`![curl output of default Apache page](https://github.com/kentcanonigo/linux-project-documentation/raw/main/screenshots/curl%20output%20of%20default%20Apache%20page.png)`
 
 ---
 
@@ -243,19 +243,19 @@ curl http://192.168.1.12:80
 
 **Commands Used:**
 
-```bash
+```
 sudo crontab -e
 ```
 
 **Crontab Entries:**
 
-```cron
+```
 */10 * * * * /usr/local/bin/mem_monitor.sh >> /var/log/mem_monitor.log 2>&1
 */10 * * * * /usr/local/bin/cpu_monitor.sh >> /var/log/cpu_monitor.log 2>&1
 ```
 
 **Screenshot Placeholder:**
-`[Screenshot: crontab -e output]`
+`![crontab -e output](https://github.com/kentcanonigo/linux-project-documentation/raw/main/screenshots/crontab%20-e%20output.png)`
 
 ---
 
@@ -263,7 +263,7 @@ sudo crontab -e
 
 * Ensure monitor scripts are executable:
 
-```bash
+```
 chmod +x /usr/local/bin/*_monitor.sh
 ```
 
