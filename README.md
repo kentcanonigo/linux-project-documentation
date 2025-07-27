@@ -84,7 +84,7 @@ PASS_MAX_DAYS 60
 PASS_WARN_AGE 14
 ```
 
-**Explanation:** Sets password expiration to 60 days and warning 14 days prior to expiration.
+**Explanation:** Sets default password expiration for newly created users to 60 days and warning 14 days prior to expiration.
 
 <img src="https://github.com/kentcanonigo/linux-project-documentation/blob/main/screenshots/modify-login-defs.gif" width="600" alt="passwerd expiration"/>
 
@@ -117,7 +117,7 @@ sudo chmod 2060 /srv/devshare
 sudo chmod 2060 /srv/guestdocs
 ```
 
-**Explanation:** Prepares a directory owned by root but writable by the `developers` group with `setgid`.
+**Explanation:** Prepares a directory owned by root but writable/readable by the `developers` group with `setgid`.
 
 <img src="https://github.com/kentcanonigo/linux-project-documentation/blob/main/screenshots/directory-creation.png" width="600" alt="directory creation"/>
 
@@ -165,7 +165,7 @@ Match User adminuser
     PasswordAuthentication no
 ```
 
-**Explanation:** Restricts adminuser to use SSH key authentication only.
+**Explanation:** Disables password-based login which restricts adminuser to use SSH key authentication only.
 
 <img src="https://github.com/kentcanonigo/linux-project-documentation/blob/main/screenshots/ssh-adminuser-fix.gif" width="600" alt="adminuser restriction"/>
 
@@ -176,6 +176,8 @@ Match User adminuser
 ### Step 1: Networking in VirtualBox
 
 Set the network adapter to `Bridged Adapter` for both CentOS and Ubuntu VMs.
+
+**Explanation:** The involved virtual machines are in running within the same host, setting each of their network adapter to `Bridged Adapter` allows to them be in the same network which in turn allows the Ubuntu clients to reach the CentOS server.
 
 <img src="https://github.com/kentcanonigo/linux-project-documentation/blob/main/screenshots/network-adapter.gif" width="600" alt="network adapter to bridged"/>
 
@@ -250,7 +252,7 @@ curl <centos server ip>:80 # IP Address may vary from your network
    timestamp=$(date "+%Y-%m-%d %H:%M:%S")
    total=$(grep MemTotal /proc/meminfo | awk '{print $2}') # returns the Total Memory kB
    available=$(grep MemAvailable /proc/meminfo | awk '{print $2}') # returns the Available Memory kB
-   used_memory=$(echo "scale=2; ( $total - $available ) * 100 / total" | bc ] # Used Memory in %
+   used_memory=$(echo "scale=2; ( $total - $available ) * 100 / $total" | bc ) # Used Memory in %
 #-------------------------------
 
 if [ "$(echo "$used_memory < 80" | bc -l)" -eq 1 ]; then
