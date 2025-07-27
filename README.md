@@ -265,6 +265,8 @@ else
 fi
 ```
 
+<img src="https://github.com/kentcanonigo/linux-project-documentation/blob/main/screenshots/mem-test.gif" width="600" alt="memory test in action"/>
+
 ### CPU Monitor Script
 
 **Path:** `/usr/local/bin/cpu_monitor.sh`
