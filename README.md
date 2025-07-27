@@ -249,7 +249,7 @@ curl <centos server ip>:80 # IP Address may vary from your network
 #-----------VARIABLES------------
    timestamp=$(date "+%Y-%m-%d %H:%M:%S")
    total=$(grep MemTotal /proc/meminfo | awk '{print $2}') # returns the Total Memory kB
-   available=$(grep MemAvailable /proc/meminfo | awk '{print $2}') # returns the Available Memort kB
+   available=$(grep MemAvailable /proc/meminfo | awk '{print $2}') # returns the Available Memory kB
    used_memory=$(echo "scale=2; ( $total - $available ) * 100 / total" | bc ] # Used Memory in %
 #-------------------------------
 
