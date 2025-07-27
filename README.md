@@ -48,7 +48,7 @@ sudo groupadd developers
 
 **Explanation:** This creates a group for users collaborating on development tasks.
 
-<img src="https://github.com/kentcanonigo/linux-project-documentation/blob/main/screenshots/group%20creation.png" width="600" alt="user creation"/>
+<img src="https://github.com/kentcanonigo/linux-project-documentation/blob/main/screenshots/group%20creation.png" width="600" alt="group add developers"/>
 
 ### Step 3: Assign Users to Groups
 
@@ -59,9 +59,9 @@ sudo usermod -aG developers devuser
 sudo usermod -aG wheel adminuser
 ```
 
-**Explanation:** `devuser` is added to the `developers` group for shared access. `adminuser` is added to the `wheel` group for sudo privileges.
+**Explanation:** `devuser` is added to the `developers` group for shared access. `adminuser` is added to the `wheel` group for sudo privileges (`wheel` for RHEL-based systems, `sudo` for debian-based systems).
 
-<img src="https://github.com/kentcanonigo/linux-project-documentation/blob/main/screenshots/user%20group%20assignments.png" width="600" alt="user creation"/>
+<img src="https://github.com/kentcanonigo/linux-project-documentation/blob/main/screenshots/user%20group%20assignments.png" width="600" alt="group addition"/>
 
 ---
 
@@ -86,7 +86,7 @@ PASS_WARN_AGE 14
 
 **Explanation:** Sets password expiration to 60 days and warning 14 days prior to expiration.
 
-<img src="https://github.com/kentcanonigo/linux-project-documentation/blob/main/screenshots/modify%20login%20defs.gif" width="600" alt="user creation"/>
+<img src="https://github.com/kentcanonigo/linux-project-documentation/blob/main/screenshots/modify%20login%20defs.gif" width="600" alt="passwerd expiration"/>
 
 ### Step 2: Apply to All Users
 
@@ -99,7 +99,7 @@ sudo chage --maxdays 60 --warndays 14 guestuser
 ```
 
 **Screenshot Placeholder:**
-`![chage command output](https://github.com/kentcanonigo/linux-project-documentation/raw/main/screenshots/chage%20command%20output.png)`
+<img src="https://github.com/kentcanonigo/linux-project-documentation/blob/main/screenshots/chage%20command%20output.png" width="600" alt="chage command output"/>
 
 ---
 
