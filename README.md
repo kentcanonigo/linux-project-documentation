@@ -21,7 +21,7 @@ This project simulates a real-world Linux system administration task involving t
 
 ### Step 1: Create Users (on Server)
 
-**Commands Used on CentOS Server:**
+**Commands Used on CentOS Server and Ubuntu Client:**
 
 ```
 sudo useradd adminuser
@@ -34,9 +34,9 @@ sudo useradd guestuser
 sudo passwd guestuser  # Password: gu3st123!
 ```
 
-**Explanation:** These commands create three users on the CentOS server.
+**Explanation:** These commands create three users on the CentOS server and the Ubuntu client. The three users get their own user accounts on both server and client to separate each user's ssh keys and enforce the security practice of "principle of least privilege".
 
-<img src="https://github.com/kentcanonigo/linux-project-documentation/blob/main/screenshots/user%20creation.png" width="600" alt="user creation"/>
+<img src="https://github.com/kentcanonigo/linux-project-documentation/blob/main/screenshots/user-creation.png" width="600" alt="user creation"/>
 
 ### Step 2: Create Group
 
@@ -48,7 +48,7 @@ sudo groupadd developers
 
 **Explanation:** This creates a group for users collaborating on development tasks.
 
-<img src="https://github.com/kentcanonigo/linux-project-documentation/blob/main/screenshots/group%20creation.png" width="600" alt="group add developers"/>
+<img src="https://github.com/kentcanonigo/linux-project-documentation/blob/main/screenshots/group-creation.png" width="600" alt="group add developers"/>
 
 ### Step 3: Assign Users to Groups
 
@@ -61,7 +61,7 @@ sudo usermod -aG wheel adminuser
 
 **Explanation:** `devuser` is added to the `developers` group for shared access. `adminuser` is added to the `wheel` group for sudo privileges (`wheel` for RHEL-based systems, `sudo` for debian-based systems).
 
-<img src="https://github.com/kentcanonigo/linux-project-documentation/blob/main/screenshots/user%20group%20assignments.png" width="600" alt="group addition"/>
+<img src="https://github.com/kentcanonigo/linux-project-documentation/blob/main/screenshots/user-group-assignments.png" width="600" alt="group addition"/>
 
 ---
 
@@ -86,7 +86,7 @@ PASS_WARN_AGE 14
 
 **Explanation:** Sets password expiration to 60 days and warning 14 days prior to expiration.
 
-<img src="https://github.com/kentcanonigo/linux-project-documentation/blob/main/screenshots/modify%20login%20defs.gif" width="600" alt="passwerd expiration"/>
+<img src="https://github.com/kentcanonigo/linux-project-documentation/blob/main/screenshots/modify-login-defs.gif" width="600" alt="passwerd expiration"/>
 
 ### Step 2: Apply to All Users
 
@@ -98,8 +98,7 @@ sudo chage --maxdays 60 --warndays 14 devuser
 sudo chage --maxdays 60 --warndays 14 guestuser
 ```
 
-**Screenshot Placeholder:**
-<img src="https://github.com/kentcanonigo/linux-project-documentation/blob/main/screenshots/chage%20command%20output.png" width="600" alt="chage command output"/>
+<img src="https://github.com/kentcanonigo/linux-project-documentation/blob/main/screenshots/chage-command-output.png" width="600" alt="chage command output"/>
 
 ---
 
@@ -111,11 +110,16 @@ sudo chage --maxdays 60 --warndays 14 guestuser
 
 ```
 sudo mkdir -p /srv/devshare
+sudo mkdir -p /srv/guestdocs
 sudo chown root:developers /srv/devshare
+sudo chown root:guestuser /srv/guestdocs
 sudo chmod 2060 /srv/devshare
+sudo chmod 2060 /srv/guestdocs
 ```
 
 **Explanation:** Prepares a directory owned by root but writable by the `developers` group with `setgid`.
+
+<img src="https://github.com/kentcanonigo/linux-project-documentation/blob/main/screenshots/directory-creation.png" width="600" alt="directory creation"/>
 
 ### Step 2: Set ACL for guestuser
 
@@ -127,8 +131,7 @@ sudo setfacl -m u:guestuser:r /srv/devshare/
 
 **Explanation:** Gives `guestuser` read-only access using ACL.
 
-**Screenshot Placeholder:**
-`![ACL verification](https://github.com/kentcanonigo/linux-project-documentation/raw/main/screenshots/ACL%20verification.png)`
+<img src="https://github.com/kentcanonigo/linux-project-documentation/blob/main/screenshots/set-access-control%20all.png" width="600" alt="ACL verification"/>
 
 ---
 
@@ -139,19 +142,22 @@ sudo setfacl -m u:guestuser:r /srv/devshare/
 **Commands Used:**
 
 ```
-ssh-keygen -t rsa -C "devuser"
-ssh-copy-id adminuser@192.168.1.25
-
-ssh-keygen -t rsa -C "guestuser"
-ssh-copy-id guestuser@192.168.1.25
+ssh-keygen
+ssh-copy-id adminuser@192.168.1.34 # IP Address on CentOS host may vary on the network
+ssh-copy-id devuser@192.168.1.34
 ```
 
 **Explanation:** Enables passwordless SSH access using key authentication.
 
-**Screenshot Placeholder:**
-`![ssh-keygen and ssh-copy-id outputs](https://github.com/kentcanonigo/linux-project-documentation/raw/main/screenshots/ssh-keygen%20and%20ssh-copy-id%20outputs.png)`
+<img src="https://github.com/kentcanonigo/linux-project-documentation/blob/main/screenshots/ssh-key-generation.png" width="600" alt="SSH Key generation"/>
 
 ### Step 2: Disable Password Login for adminuser
+
+**Commands used:**
+```
+sudo vim /etc/ssh/sshd_config.d/admin-user-nologin.conf
+sudo systemctl restart sshd
+```
 
 **File Created:** `/etc/ssh/sshd_config.d/admin-user-nologin.conf`
 
@@ -160,16 +166,9 @@ Match User adminuser
     PasswordAuthentication no
 ```
 
-**Command:**
-
-```
-sudo systemctl restart sshd
-```
-
 **Explanation:** Restricts adminuser to use SSH key authentication only.
 
-**Screenshot Placeholder:**
-`![sshd config and restart](https://github.com/kentcanonigo/linux-project-documentation/raw/main/screenshots/sshd%20config%20and%20restart.png)`
+<img src="https://github.com/kentcanonigo/linux-project-documentation/blob/main/screenshots/ssh-key-generation.png" width="600" alt="SSH Key generation"/>
 
 ---
 
