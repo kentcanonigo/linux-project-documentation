@@ -131,7 +131,7 @@ sudo setfacl -m u:guestuser:r /srv/devshare/
 
 **Explanation:** Gives `guestuser` read-only access using ACL.
 
-<img src="https://github.com/kentcanonigo/linux-project-documentation/blob/main/screenshots/set-access-control-all.png" width="600" alt="ACL verification"/>
+<img src="https://github.com/kentcanonigo/linux-project-documentation/blob/main/screenshots/set-access-control.png" width="600" alt="ACL verification"/>
 
 ---
 
