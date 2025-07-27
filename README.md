@@ -265,7 +265,7 @@ else
 fi
 ```
 
-<img src="https://github.com/kentcanonigo/linux-project-documentation/blob/main/screenshots/mem-test.gif" width="600" alt="memory test in action"/>
+<img src="https://github.com/kentcanonigo/linux-project-documentation/blob/main/screenshots/mem-test-2.gif" width="600" alt="memory test in action"/>
 
 ### CPU Monitor Script
 
@@ -298,6 +298,8 @@ else
 	exit 2
 fi
 ```
+
+<img src="https://github.com/kentcanonigo/linux-project-documentation/blob/main/screenshots/cpu-test-2.gif" width="600" alt="memory test in action"/>
 
 ### Crontab for Automation
 
