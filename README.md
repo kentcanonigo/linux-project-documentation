@@ -357,5 +357,5 @@ chmod +x /usr/local/bin/*_monitor.sh
 
 If you want to directly use the virtual machines as-is, you may download the exported appliances here:
 
-[CentOS Server](https://drive.google.com/file/d/1JSuiICU_iUfkg5AWxrTHbHfzH_mwEG8v/view?usp=sharing)
-[Ubuntu Client](https://drive.google.com/file/d/1FrJ3-tmQND-e0gn9sG4t70B8T8dbGmxM/view?usp=sharing)
+[CentOS Server](https://drive.google.com/file/d/1ggNdFt-ROqaa2kNOyJhLcqFQg8svLHHl/view?usp=drive_link)
+[Ubuntu Client](https://drive.google.com/file/d/1BtT_5FWPqUAGNwt8jC5CwgAoQ-jmpEKO/view?usp=drive_link)
