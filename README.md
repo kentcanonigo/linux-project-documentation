@@ -110,16 +110,13 @@ sudo chage --maxdays 60 --warndays 14 guestuser
 
 ```
 sudo mkdir -p /srv/devshare
-sudo mkdir -p /srv/guestdocs
 sudo chown root:developers /srv/devshare
-sudo chown root:guestuser /srv/guestdocs
 sudo chmod 2060 /srv/devshare
-sudo chmod 2060 /srv/guestdocs
 ```
 
 **Explanation:** Prepares a directory owned by root but writable/readable by the `developers` group with `setgid`.
 
-<img src="https://github.com/kentcanonigo/linux-project-documentation/blob/main/screenshots/directory-creation.png" width="600" alt="directory creation"/>
+<img src="https://github.com/kentcanonigo/linux-project-documentation/blob/main/screenshots/shared-directory-2.png" width="600" alt="directory creation"/>
 
 ### Step 2: Set ACL for guestuser
 
